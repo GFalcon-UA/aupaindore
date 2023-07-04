@@ -1,0 +1,29 @@
+<div class="container" appDnd (fileDropped)="onFileDropped($event)">
+  <input type="file" #fileDropRef id="fileDropRef" multiple (change)="fileBrowseHandler($event.target)" />
+  <img src="assets/img/upload.svg" alt="">
+  <h3>Drag and drop file here</h3>
+<!--  <h3>or</h3>-->
+<!--  <label for="fileDropRef">Browse for file</label>-->
+</div>
+<div >
+  <table *ngIf="simpleOrders.length > 0" class="order-list">
+    <tr>
+      <th>amount</th>
+      <th>Item</th>
+    </tr>
+    <tr *ngFor="let item of simpleOrders">
+      <td>{{item.amount}}</td>
+      <td>{{item.name}}</td>
+    </tr>
+  </table>
+</div>
+<div *ngIf="complexOrders.length > 0">
+  <table *ngFor="let ord of complexOrders" class="order-list">
+    <tr>
+      <th>{{getTitle(ord)}}</th>
+    </tr>
+    <tr *ngFor="let item of ord.items">
+      <td>{{item.name}}</td>
+    </tr>
+  </table>
+</div>

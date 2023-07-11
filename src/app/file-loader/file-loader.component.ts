@@ -4,6 +4,7 @@ import {ExcelService} from "../service/excel.service";
 import {OrderItem} from "../model/order-item";
 import {SimpleOrder} from "../model/simple-order";
 import {ComplexOrder} from "../model/complex-order";
+import {OrderService} from "../service/order.service";
 
 @Component({
   selector: 'app-file-loader',
@@ -25,7 +26,7 @@ export class FileLoaderComponent {
 
   files: any[] = [];
 
-  constructor(private excelService: ExcelService) {
+  constructor(private excelService: ExcelService, private orderService: OrderService) {
   }
 
   // private fileDropEl: ElementRef;
@@ -76,100 +77,13 @@ export class FileLoaderComponent {
       } else {
         this.excelService.parse(this.files[index]).then(value => {
           // self.orders.emit(value);
-          self.prepareOrderList(value)
+          self.orderService.prepareOrderList(value)
         });
       }
     }, 1000);
   }
 
-  prepareOrderList(orderItems : OrderItem[]) {
-    let complexOrder : ComplexOrder|undefined = undefined;
-    for (let i = 0; i < orderItems.length; i++) {
-      const item = orderItems[i];
-      if(this.isThreeSaladCombo(item)) {
-        let n = item.item ? item.item : '';
-        if(item.isRoot) {
-          if(complexOrder) {
-            this.complexOrders.push(complexOrder);
-            complexOrder = undefined;
-          }
-          complexOrder = {
-            orderNumber: item.bagNumber + " (" + item.label + ")",
-            name: n,
-            items: []
-          };
-        } else {
-          if(complexOrder) {
-            complexOrder?.items.push({
-              name: n
-            })
-          }
-        }
-      } else {
-        if(item.isRoot) {
-          if(complexOrder) {
-            this.complexOrders.push(complexOrder);
-            complexOrder = undefined;
-          }
-          if(item.hasOption) {
-            // skip
-          } else {
-            this.addToOrderList(orderItems[i]);
-          }
-        } else {
-          this.addToOrderList(orderItems[i]);
-        }
-      }
 
-    }
-    if(complexOrder) {
-      this.complexOrders.push(complexOrder);
-      complexOrder = undefined;
-    }
-    this.complexOrders = this.complexOrders.sort((a, b) => a.orderNumber.localeCompare(b.orderNumber))
-    this.simpleOrders = this.simpleOrders.sort((a, b) => a.name.localeCompare(b.name));
-  }
-
-  private isThreeSaladCombo(orderItem: OrderItem): boolean {
-    return !!orderItem.item?.trim().startsWith("3 Salads Combo")
-  }
-
-  private addToOrderList(orderItem: OrderItem) {
-    let name = orderItem.item;
-    if (!name) {
-      return
-    }
-    if(this.isThreeSaladCombo(orderItem)) {
-      // skip
-    } else {
-      let simpleOrder = this.getAlreadyOrderedAmount(name);
-      if(simpleOrder.amount > 0) {
-        let index = this.simpleOrders.indexOf(simpleOrder);
-        this.simpleOrders[index] = {
-          name: name,
-          amount: simpleOrder.amount + 1
-        }
-      } else {
-        this.simpleOrders.push({
-          name: name,
-          amount: 1
-        })
-      }
-    }
-  }
-
-  private getAlreadyOrderedAmount(pred: string): SimpleOrder {
-    let amount = 0;
-    for (let i = 0; i < this.simpleOrders.length; i++){
-      if (this.simpleOrders[i].name === pred) {
-        return this.simpleOrders[i];
-      }
-    }
-    return {
-      name: pred,
-      amount: 0
-    };
-  }
 
   /**
    * Convert Files list to normal array list

@@ -8,6 +8,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DndDirective } from './directives/dnd.directive';
 import { IngredientOptionsComponent } from './ingredient-options/ingredient-options.component';
 import { OrderListComponent } from './order-list/order-list.component';
+import { ThreeSaladsComboComponent } from './three-salads-combo/three-salads-combo.component';
+import {MatCardModule} from "@angular/material/card";
+import {MatListModule} from "@angular/material/list";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -15,12 +19,16 @@ import { OrderListComponent } from './order-list/order-list.component';
     FileLoaderComponent,
     DndDirective,
     IngredientOptionsComponent,
-    OrderListComponent
+    OrderListComponent,
+    ThreeSaladsComboComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatCardModule,
+    MatListModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -3,6 +3,8 @@ import {Ingredient} from "../model/ingredient";
 import {OrderItem} from "../model/order-item";
 import {SimpleOrder} from "../model/simple-order";
 import {ComplexOrder} from "../model/complex-order";
+import {ExcelService} from "../service/excel.service";
+import {OrderService} from "../service/order.service";
 
 @Component({
   selector: 'app-order-list',
@@ -10,32 +12,37 @@ import {ComplexOrder} from "../model/complex-order";
   styleUrls: ['./order-list.component.css']
 })
 export class OrderListComponent implements OnChanges, OnInit{
-  @Input("ingred")
-  ingredients: Ingredient[] = [];
 
-  @Input("orders")
-  orders: OrderItem[] = [];
 
-  simpleOrders: SimpleOrder[] = [];
-  complexOrders: ComplexOrder[] = [];
+  constructor(private orderService: OrderService) {
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
 
   }
 
   ngOnInit(): void {
-    this.prepareOrderList()
+
   }
 
-  private prepareOrderList() {
-    debugger;
-    for (let i = 0; i < this.orders.length; i++) {
-      this.addToOrderList(this.orders[i]);
-    }
+  getSimpleOrders(): SimpleOrder[] {
+    return this.orderService.getSimpleOrders();
   }
 
-  private addToOrderList(item: OrderItem) {
-    debugger;
+  getSimpleOrdersLength(): number {
+    return this.orderService.getSimpleOrdersLength();
+  }
+
+  getComplexOrders(): ComplexOrder[] {
+    return this.orderService.getComplexOrders();
+  }
+
+  getComplexOrdersLength(): number {
+    return this.orderService.getComplexOrderLength();
+  }
+
+  getTitle(ord: ComplexOrder): string {
+    return ord.orderNumber + " - " + ord.name
   }
 
 }

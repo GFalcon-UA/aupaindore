@@ -1,0 +1,14 @@
+.salad-combo-card {
+  max-width: 400px;
+  margin: 10px;
+}
+.salad-option{
+  white-space: break-spaces;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+@media print {
+  .salad-combo-card{
+    page-break-inside: avoid;
+  }
+}

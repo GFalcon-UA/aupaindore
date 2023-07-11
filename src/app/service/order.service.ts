@@ -49,7 +49,8 @@ export class OrderService {
             complexOrder = undefined;
           }
           complexOrder = {
-            orderNumber: item.bagNumber + " (" + item.label + ")",
+            orderNumber: item.bagNumber ? item.bagNumber : "",
+            label: item.label ? item.label : "",
             name: n,
             items: []
           };

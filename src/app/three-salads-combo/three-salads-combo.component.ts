@@ -4,9 +4,7 @@ import {ComplexOrder} from "../model/complex-order";
 @Component({
   selector: 'app-three-salads-combo',
   templateUrl: './three-salads-combo.component.html',
-  styleUrls: ['./three-salads-combo.component.css'],
-  // standalone: true,
-  // imports: [MatCardModule, MatDividerModule, MatButtonModule, MatListModule, NgForOf]
+  styleUrls: ['./three-salads-combo.component.css']
 })
 export class ThreeSaladsComboComponent {
 

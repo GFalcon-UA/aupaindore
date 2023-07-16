@@ -12,6 +12,7 @@ import { ThreeSaladsComboComponent } from './three-salads-combo/three-salads-com
 import {MatCardModule} from "@angular/material/card";
 import {MatListModule} from "@angular/material/list";
 import {MatButtonModule} from "@angular/material/button";
+import { OrderCardsComponent } from './order-cards/order-cards.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {MatButtonModule} from "@angular/material/button";
     DndDirective,
     IngredientOptionsComponent,
     OrderListComponent,
-    ThreeSaladsComboComponent
+    ThreeSaladsComboComponent,
+    OrderCardsComponent
   ],
   imports: [
     BrowserModule,

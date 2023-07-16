@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {SimpleOrder} from "../model/simple-order";
 import {ComplexOrder} from "../model/complex-order";
 import {OrderItem} from "../model/order-item";
+import {CategoryService} from "./category.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class OrderService {
   private simpleOrders: SimpleOrder[] = [];
   private complexOrders: ComplexOrder[] = [];
 
-  constructor() { }
+  constructor(private categoryService: CategoryService) { }
 
   public getSimpleOrders(): SimpleOrder[] {
     return JSON.parse(JSON.stringify(this.simpleOrders));
@@ -19,6 +20,22 @@ export class OrderService {
 
   public getSimpleOrdersLength() : number {
     return this.simpleOrders.length;
+  }
+
+  public getSandwiches() : SimpleOrder[] {
+    return this.getSimpleOrders().filter(ord => ord.category === 'Sandwiches')
+  }
+
+  public getSandwichesOnCroissant() : SimpleOrder[] {
+    return this.getSimpleOrders().filter(ord => ord.category === 'Sandwiches on croissant')
+  }
+
+  public getSalads() : SimpleOrder[] {
+    return this.getSimpleOrders().filter(ord => ord.category === 'Salads')
+  }
+
+  public getOthers() : SimpleOrder[] {
+    return this.getSimpleOrders().filter(ord => ord.category === 'others')
   }
 
   public getComplexOrders(): ComplexOrder[] {
@@ -52,6 +69,7 @@ export class OrderService {
             orderNumber: item.bagNumber ? item.bagNumber : "",
             label: item.label ? item.label : "",
             name: n,
+            category: this.categoryService.markSalads(),
             items: []
           };
         } else {
@@ -103,11 +121,13 @@ export class OrderService {
         let index = this.simpleOrders.indexOf(simpleOrder);
         this.simpleOrders[index] = {
           name: name,
+          category: this.categoryService.recognize(name),
           amount: simpleOrder.amount + 1
         }
       } else {
         this.simpleOrders.push({
           name: name,
+          category: this.categoryService.recognize(name),
           amount: 1
         })
       }
@@ -123,6 +143,7 @@ export class OrderService {
     }
     return {
       name: pred,
+      category: this.categoryService.markOthers(),
       amount: 0
     };
   }

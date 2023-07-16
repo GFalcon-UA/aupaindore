@@ -45,4 +45,20 @@ export class OrderListComponent implements OnChanges, OnInit{
     return ord.orderNumber + " - " + ord.name
   }
 
+  getSandwiches() : SimpleOrder[] {
+    return this.orderService.getSandwiches();
+  }
+
+  getSandwichesOnCroissant(): SimpleOrder[] {
+    return this.orderService.getSandwichesOnCroissant();
+  }
+
+  getSalads(): SimpleOrder[] {
+    return this.orderService.getSalads();
+  }
+
+  getOthers(): SimpleOrder[] {
+    return this.orderService.getOthers();
+  }
+
 }

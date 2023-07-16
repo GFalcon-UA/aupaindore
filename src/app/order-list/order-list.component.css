@@ -1,5 +1,8 @@
 .order-list{
   margin: auto;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 .salads{
   display: flex;
